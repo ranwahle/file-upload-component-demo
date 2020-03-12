@@ -1,15 +1,12 @@
 export class FileDropComponent extends HTMLElement {
 
     shadow = null;
-    constructor() {
-        super();
-    }
+
     connectedCallback() {
         this.render();
-        this.setEventHandlers();
+        setTimeout(() =>
+            this.setEventHandlers());
     }
-
-
 
 
     dragLeave = (evt) => {
@@ -55,19 +52,27 @@ export class FileDropComponent extends HTMLElement {
     }
 
     render() {
-        // if (this.getAttribute('use-shadow') !== 'false') {
-        //     this.shadow = this.attachShadow({mode: 'closed'})
-        // }
 
-        this.innerHTML = `<div>
-<span>
-        <slot name="drop-text">Drop files here</slot>
-        </span>
-            </div>`
-        if (this.shadow) {
-            this.shadow.appendChild(this.querySelector('div'));
+
+        const template = document.createElement('template');
+        template.innerHTML = ` <div>
+        <slot name="drop-text"><span>Default</span></slot>
+    </div>`;
+        this.appendChild(template);
+
+        const {content} = template;
+         if (this.getAttribute('use-shadow') !== 'false') {
+            this.shadow = this.attachShadow({mode: 'open'})
         }
+        if (this.shadow) {
+            this.shadow.appendChild(content.cloneNode(true));
+        } else {
+            this.appendChild(content.cloneNode(true));
+        }
+
+
     }
 
 }
+
 customElements.define('file-drop-component', FileDropComponent);

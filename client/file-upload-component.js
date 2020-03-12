@@ -46,7 +46,7 @@ export class FileUploadComponent extends HTMLElement {
             console.warn(`no handler for ${file.type}`);
             const defaultComponent = document.createElement('div', {is: 'default-preview-component'});
             defaultComponent.setAttribute('file-name', file.name);
-             this.previewElement.appendChild(defaultComponent);
+            this.previewElement.appendChild(defaultComponent);
             return;
         }
         const component = await handler(file);
@@ -81,8 +81,10 @@ export class FileUploadComponent extends HTMLElement {
 
     render() {
         this.innerHTML = `<input type="file">
-${this.fileDropArea()}
     <div file-upload-id="preview-area"></div>
+    <file-drop-component use-shadow="${this.useShadow}">
+            <span slot="drop-text"> Drop text </span>
+        </file-drop-component>
       <button>Upload</button>`;
     }
 
@@ -91,7 +93,7 @@ ${this.fileDropArea()}
     }
 
     fileDropArea() {
-  return  ` <file-drop-component use-shadow="${this.useShadow}" >
+        return ` <file-drop-component use-shadow="${this.useShadow}" >
             <div slot="drop-text">Your files here</div>
         </file-drop-component>`;
     }
