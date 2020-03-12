@@ -17,4 +17,4 @@ This will install only express for the server side
 $ npm start
 ```
 
-visit http://localhost:3000
+visit http://localhost:3001
